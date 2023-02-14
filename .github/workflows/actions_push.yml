@@ -21,10 +21,10 @@ jobs:
 
       # Set Docker image tag
       - name: Docker image tag version (on master branch push) to file
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: "echo latest > /tmp/docker_tag_version.txt"
       - name: Docker image tag version (on develop branch push) to file
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/dev'
         run: "echo dev > /tmp/docker_tag_version.txt"
       - name: Docker image tag version (on workflow dispatch) to file
         if: github.event.inputs.tag_version
@@ -60,4 +60,4 @@ jobs:
       # Build & Push
       - name: Build & Push for all archs
         if: success()
-        run: make buildx IMAGE_TAG=d4kine/terragrunt-aws:${{ steps.get_image_tag_version.outputs.VERSION }} ARCH=linux/amd64,linux/arm/v7
+        run: make buildx IMAGE_TAG=d4kine/terragrunt-aws:${{ steps.get_image_tag_version.outputs.VERSION }} ARCH=linux/amd64,linux/arm64
